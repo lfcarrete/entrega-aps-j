@@ -19,7 +19,6 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
     private final JCheckBox inA;
     private final JCheckBox inB;
-    private final JCheckBox out;
 
     private final Switch s0;
     private final Switch s1;
@@ -27,29 +26,28 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
     private final Image image;
 
     public GateView(Gate gate) {
-        super(270, 150);
+        super();
 
         this.gate = gate;
 
         inA = new JCheckBox();
         inB = new JCheckBox();
-        out = new JCheckBox();
 
         s0 = new Switch();
         s1 = new Switch();
 
-        light = new Light(255, 0, 0, 0,0,0);
+        light = new Light(255, 0, 0, 0, 0, 0);
 
         if (gate.getInputSize() != 1) {
 
-            add(inA, 40, 30, 20, 20);
-            add(inB, 40, 70, 20, 20);
+            add(inA, 40, 30);
+            add(inB, 40, 70);
 
 
             inA.addActionListener(this);
             inB.addActionListener(this);
         } else {
-            add(inA, 40, 50, 20, 20);
+            add(inA, 40, 50);
             inA.addActionListener(this);
         }
 
@@ -61,8 +59,6 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         light.connect(0, gate);
 
         addMouseListener(this);
-
-        out.setEnabled(false);
 
         update();
     }
@@ -104,9 +100,11 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         int x = event.getX();
         int y = event.getY();
 
-        double m = Math.pow((Math.pow((x - (210 + 25/2)), 2) + Math.pow((y - (50 + 25/2)), 2)), 0.5);
+        @SuppressWarnings("IntegerDivisionInFloatingPointContext")
+        double m = Math.pow((Math.pow((x - (210 + 25 / 2)), 2) + Math.pow((y - (50 + 25 / 2)), 2)), 0.5);
         // Se o clique foi dentro do quadrado colorido...
-        if (m < 25/2) {
+        //noinspection IntegerDivisionInFloatingPointContext
+        if (m < 25 / 2) {
             if (result) {
                 // ...então abrimos a janela seletora de cor...
                 color = JColorChooser.showDialog(this, null, light.getColor());
