@@ -29,7 +29,7 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
     private Color color;
 
     public GateView(Gate gate) {
-        super(320, 200);
+        super(270, 150);
 
         this.gate = gate;
 
@@ -44,14 +44,14 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
         if (gate.getInputSize() != 1) {
 
-            add(inA, 50, 60, 20, 20);
-            add(inB, 50, 107, 20, 20);
+            add(inA, 40, 30, 20, 20);
+            add(inB, 40, 70, 20, 20);
 
 
             inA.addActionListener(this);
             inB.addActionListener(this);
         } else {
-            add(inA, 50, 77, 20, 20);
+            add(inA, 40, 50, 20, 20);
             inA.addActionListener(this);
         }
 
@@ -151,11 +151,11 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         super.paintComponent(g);
 
         // Desenha a imagem, passando sua posição e seu tamanho.
-        g.drawImage(image, 20, 0, 250, 200, this);
+        g.drawImage(image, 40, 0, 180, 120, this);
 
         // Desenha um quadrado cheio.
         g.setColor(color);
-        g.fillOval(230, 79, 25, 25);
+        g.fillOval(210, 50, 25, 25);
 
         // Linha necessária para evitar atrasos
         // de renderização em sistemas Linux.
