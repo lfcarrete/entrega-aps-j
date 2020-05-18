@@ -26,8 +26,6 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
     private final Image image;
 
-    private Color color;
-
     public GateView(Gate gate) {
         super(270, 150);
 
@@ -40,7 +38,7 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         s0 = new Switch();
         s1 = new Switch();
 
-        light = new Light(255, 0, 0);
+        light = new Light(255, 0, 0, 0,0,0);
 
         if (gate.getInputSize() != 1) {
 
@@ -55,7 +53,6 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
             inA.addActionListener(this);
         }
 
-        color = Color.BLACK;
 
         String name = gate.toString() + ".png";
         URL url = getClass().getClassLoader().getResource(name);
@@ -71,7 +68,7 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
     }
 
     private void update() {
-        color = light.getColor();
+        light.getColor();
         repaint();
     }
 
@@ -101,6 +98,7 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
     @Override
     public void mouseClicked(MouseEvent event) {
+        Color color;
         boolean result = gate.read();
         // Descobre em qual posição o clique ocorreu.
         int x = event.getX();
@@ -111,13 +109,16 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         if (m < 25) {
             if (result) {
                 // ...então abrimos a janela seletora de cor...
-                color = JColorChooser.showDialog(this, null, color);
+                color = JColorChooser.showDialog(this, null, light.getColor());
 
-                light.setColor(color);
+                light.setOnColor(color);
+            } else {
+                color = JColorChooser.showDialog(this, null, light.getColor());
 
-                // ...e chamamos repaint para atualizar a tela.
-                repaint();
+                light.setOffColor(color);
             }
+            // ...e chamamos repaint para atualizar a tela.
+            repaint();
         }
     }
 
@@ -154,7 +155,7 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         g.drawImage(image, 40, 0, 180, 120, this);
 
         // Desenha um quadrado cheio.
-        g.setColor(color);
+        g.setColor(light.getColor());
         g.fillOval(210, 50, 25, 25);
 
         // Linha necessária para evitar atrasos
